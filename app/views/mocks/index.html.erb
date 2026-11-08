@@ -1,0 +1,35 @@
+<h1>Mock tests</h1>
+<p><%= notice %><%= alert %></p>
+
+<% if @in_progress.any? %>
+  <h2>In progress</h2>
+  <ul>
+    <% @in_progress.each do |a| %>
+      <li><%= a.mock.title %>: <%= link_to "Resume", attempt_answer_path(a, 1) %>
+        (<%= (a.seconds_left / 60.0).ceil %> min left)</li>
+    <% end %>
+  </ul>
+<% end %>
+
+<h2>Available</h2>
+<% @mocks.each do |m| %>
+  <div>
+    <strong><%= m.title %></strong>: <%= m.total_questions %> questions, <%= m.duration_minutes %> minutes
+    <%= button_to "Start", mock_attempts_path(m), method: :post %>
+  </div>
+<% end %>
+
+<h2>Past attempts</h2>
+<table>
+  <tr><th>Mock</th><th>Date</th><th>Score</th><th></th></tr>
+  <% @past.each do |a| %>
+    <tr>
+      <td><%= a.mock.title %></td>
+      <td><%= l a.submitted_at, format: :short %></td>
+      <td><%= a.score %> (<%= a.percentage %>%)</td>
+      <td><%= link_to "Review", attempt_path(a) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= button_to "Sign out", session_path, method: :delete %>

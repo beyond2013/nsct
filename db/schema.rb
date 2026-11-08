@@ -10,17 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_11_08_061634) do
+ActiveRecord::Schema[8.0].define(version: 2026_11_08_120324) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "answers", force: :cascade do |t|
-    t.string "attempt"
-    t.string "references"
     t.bigint "question_id", null: false
     t.bigint "option_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "attempt_id", null: false
+    t.integer "position"
+    t.index ["attempt_id", "position"], name: "index_answers_on_attempt_id_and_position", unique: true
+    t.index ["attempt_id", "question_id"], name: "index_answers_on_attempt_id_and_question_id", unique: true
+    t.index ["attempt_id"], name: "index_answers_on_attempt_id"
     t.index ["option_id"], name: "index_answers_on_option_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
   end
@@ -29,12 +32,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_08_061634) do
     t.bigint "user_id", null: false
     t.bigint "mock_id", null: false
     t.datetime "started_at"
-    t.string "submitted_at"
-    t.string "datetime"
-    t.string "score"
-    t.string "integer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "submitted_at"
+    t.integer "score"
     t.index ["mock_id"], name: "index_attempts_on_mock_id"
     t.index ["user_id"], name: "index_attempts_on_user_id"
   end
@@ -53,6 +54,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_08_061634) do
     t.integer "total_questions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
   end
 
   create_table "options", force: :cascade do |t|
@@ -99,10 +101,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_08_061634) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.string "roll_number"
-    t.integer "role"
+    t.integer "role", default: 0, null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "answers", "attempts"
   add_foreign_key "answers", "options"
   add_foreign_key "answers", "questions"
   add_foreign_key "attempts", "mocks"

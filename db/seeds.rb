@@ -40,3 +40,7 @@ YAML.load_file(Rails.root.join("db/seed_data/subtopics.yml")).each do |comp_name
   comp = Competency.find_by!(name: comp_name)
   subs.each { |s| comp.subtopics.find_or_create_by!(name: s) }
 end
+
+# Placeholder formats: edit once the real NSCT paper format is confirmed
+Mock.find_or_create_by!(title: "Quick practice") { |m| m.total_questions = 20; m.duration_minutes = 30 }
+Mock.find_or_create_by!(title: "Full mock") { |m| m.total_questions = 100; m.duration_minutes = 120 }

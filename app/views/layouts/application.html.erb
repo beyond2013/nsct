@@ -23,6 +23,17 @@
   </head>
 
   <body>
+   <% if authenticated? %>
+      <nav>
+        <% unless Current.user.student? %>
+          <%= link_to "Question bank", manage_questions_path %> |
+        <% end %>
+        <%= Current.user.name.presence || Current.user.email_address %> (<%= Current.user.role %>)
+        <%= button_to "Sign out", session_path, method: :delete, form: { style: "display:inline" } %>
+      </nav>
+      <hr>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

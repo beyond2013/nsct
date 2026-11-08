@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    redirect_to manage_questions_path if Current.user&.faculty? || Current.user&.admin?
+    redirect_to(Current.user.student?  ? mocks_path : manage_questions_path)
   end
 end

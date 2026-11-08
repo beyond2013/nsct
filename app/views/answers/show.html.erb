@@ -1,0 +1,35 @@
+<div data-controller="countdown"
+     data-countdown-seconds-value="<%= @attempt.seconds_left %>"
+     data-countdown-url-value="<%= attempt_path(@attempt) %>">
+
+  <p><%= notice %></p>
+  <p>Question <%= @answer.position %> of <%= @total %> |
+     Time left: <strong data-countdown-target="display"></strong></p>
+
+  <%= simple_format(@answer.question.body) %>
+
+  <%= form_with url: attempt_answer_path(@attempt, @answer.position), method: :patch do %>
+    <% @options.each do |o| %>
+      <p><label>
+        <%= radio_button_tag "option_id", o.id, @answer.option_id == o.id %>
+        <%= o.body %>
+      </label></p>
+    <% end %>
+
+    <p>
+      <%= button_tag "Previous", name: "go", value: "prev" unless @answer.position == 1 %>
+      <%= button_tag "Save", name: "go", value: @answer.position %>
+      <%= button_tag "Save & next", name: "go", value: "next" unless @answer.position == @total %>
+      <%= button_tag "Clear answer", name: "clear", value: "1" %>
+    </p>
+
+    <p>Jump to (✓ = answered):
+      <% 1.upto(@total) do |n| %>
+        <%= button_tag "#{n}#{'✓' if @answered.include?(n)}", name: "go", value: n %>
+      <% end %>
+    </p>
+  <% end %>
+
+  <%= button_to "Submit test", submit_attempt_path(@attempt), method: :post,
+        form: { data: { turbo_confirm: "Submit the test? You cannot change answers afterwards." } } %>
+</div>

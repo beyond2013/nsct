@@ -9,6 +9,15 @@ Rails.application.routes.draw do
     resource :import, only: %i[new create]
   end
 
+  resources :mocks, only: :index do
+    resources :attempts, only: :create
+  end
+
+  resources :attempts, only: :show do
+    member { post :submit }
+    resources :answers, only: %i[show update], param: :position
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
