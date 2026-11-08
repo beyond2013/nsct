@@ -17,7 +17,7 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
-gem "json" , "~> 2.9.1"
+gem "json" , "~> 3.1.0"
 
 gem "csv"
 
