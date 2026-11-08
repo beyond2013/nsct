@@ -1,0 +1,31 @@
+<h1>Question bank</h1>
+<p>
+  <%= link_to "New question", new_manage_question_path %> |
+  <%= link_to "Import CSV", new_manage_import_path %>
+</p>
+
+<%= form_with url: manage_questions_path, method: :get do |f| %>
+  <%= f.select :competency_id, options_from_collection_for_select(Competency.order(:position), :id, :name, params[:competency_id]), include_blank: "All competencies" %>
+  <%= f.select :status, options_for_select(Question.statuses.keys, params[:status]), include_blank: "Any status" %>
+  <%= f.submit "Filter" %>
+<% end %>
+
+<p><%= notice %><%= alert %></p>
+
+<table>
+  <tr><th>Question</th><th>Competency</th><th>Subtopic</th><th>Level</th><th>Status</th><th></th></tr>
+  <% @questions.each do |q| %>
+    <tr>
+      <td><%= truncate(q.body, length: 80) %></td>
+      <td><%= q.subtopic.competency.name %></td>
+      <td><%= q.subtopic.name %></td>
+      <td><%= q.difficulty %></td>
+      <td><%= q.status %></td>
+      <td>
+        <%= link_to "Edit", edit_manage_question_path(q) %>
+        <%= button_to "Approve", approve_manage_question_path(q), method: :patch unless q.approved? %>
+        <%= button_to "Delete", manage_question_path(q), method: :delete, form: { data: { turbo_confirm: "Delete this question?" } } %>
+      </td>
+    </tr>
+  <% end %>
+</table>

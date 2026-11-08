@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_11_08_050154) do
+ActiveRecord::Schema[8.0].define(version: 2026_11_08_061634) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -67,7 +67,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_08_050154) do
   create_table "questions", force: :cascade do |t|
     t.bigint "subtopic_id", null: false
     t.text "body"
-    t.text "expalanation"
+    t.text "explanation"
     t.integer "difficulty"
     t.integer "status"
     t.datetime "created_at", null: false

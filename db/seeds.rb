@@ -35,3 +35,8 @@ User.find_or_create_by!(email_address: admin_email) do |u|
   # Only shown when the account is first created
   puts "Admin created: #{admin_email} / #{admin_password}" unless ENV["ADMIN_PASSWORD"]
 end
+
+YAML.load_file(Rails.root.join("db/seed_data/subtopics.yml")).each do |comp_name, subs|
+  comp = Competency.find_by!(name: comp_name)
+  subs.each { |s| comp.subtopics.find_or_create_by!(name: s) }
+end

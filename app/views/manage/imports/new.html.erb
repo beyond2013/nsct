@@ -1,0 +1,14 @@
+<h1>Import questions (CSV)</h1>
+<% if @errors %>
+  <p>Nothing was imported. Fix these and upload again:</p>
+  <ul><% @errors.each do |e| %><li><%= e %></li><% end %></ul>
+<% end %>
+
+<%= form_with url: manage_import_path, multipart: true do |f| %>
+  <%= f.file_field :file, accept: ".csv" %>
+  <%= f.submit "Import" %>
+<% end %>
+
+<p>Columns: competency, subtopic, difficulty, question, option_a, option_b, option_c, option_d, correct, explanation.
+Competency and subtopic names must match the HEC names exactly (case doesn't matter).</p>
+<%= link_to "Back", manage_questions_path %>
