@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  subtopic: one
+  body: MyText
+  expalanation: MyText
+  difficulty: 1
+  status: 1
+
+two:
+  subtopic: two
+  body: MyText
+  expalanation: MyText
+  difficulty: 1
+  status: 1
